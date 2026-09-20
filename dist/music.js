@@ -3,9 +3,8 @@
   const button = document.querySelector('#musicBtn');
   if (!music || !button) return;
 
-  const storageKey = 'lanyangBgmEnabled';
-  const storedPreference = localStorage.getItem(storageKey);
-  let enabled = storedPreference === null ? true : storedPreference === 'true';
+  let enabled = true;
+  localStorage.removeItem('lanyangBgmEnabled');
 
   music.volume = 0.18;
 
@@ -36,7 +35,6 @@
   button.addEventListener('click', event => {
     event.stopPropagation();
     enabled = !enabled;
-    localStorage.setItem(storageKey, String(enabled));
     renderButton();
     enabled ? playMusic() : pauseMusic();
   });
