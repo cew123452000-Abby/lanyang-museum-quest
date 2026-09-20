@@ -6,7 +6,6 @@
   const storageKey = 'lanyangBgmEnabled';
   const storedPreference = localStorage.getItem(storageKey);
   let enabled = storedPreference === null ? true : storedPreference === 'true';
-  let hasUserGesture = false;
 
   music.volume = 0.18;
 
@@ -20,7 +19,7 @@
   }
 
   async function playMusic() {
-    if (!enabled || !hasUserGesture || !music.paused) return;
+    if (!enabled || !music.paused) return;
     try {
       await music.play();
       button.classList.add('is-playing');
@@ -36,18 +35,21 @@
 
   button.addEventListener('click', event => {
     event.stopPropagation();
-    hasUserGesture = true;
     enabled = !enabled;
     localStorage.setItem(storageKey, String(enabled));
     renderButton();
     enabled ? playMusic() : pauseMusic();
   });
 
-  document.addEventListener('click', event => {
+  function unlockPlayback(event) {
     if (event.target.closest('#musicBtn')) return;
-    hasUserGesture = true;
     playMusic();
-  }, { passive: true });
+  }
+
+  document.addEventListener('pointerdown', unlockPlayback, { passive: true, capture: true });
+  document.addEventListener('touchstart', unlockPlayback, { passive: true, capture: true });
+  document.addEventListener('keydown', unlockPlayback, { capture: true });
+  document.addEventListener('click', unlockPlayback, { passive: true });
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) pauseMusic();
@@ -57,4 +59,5 @@
   music.addEventListener('play', () => button.classList.add('is-playing'));
   music.addEventListener('pause', () => button.classList.remove('is-playing'));
   renderButton();
+  playMusic();
 })();
