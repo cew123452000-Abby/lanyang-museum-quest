@@ -9,7 +9,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23073b4c'/%3E%3Cpath d='M8 42 26 15l8 12 7-8 15 23Z' fill='%2306d6a0'/%3E%3Cpath d='M5 47c12-7 21 7 34 0s18 0 20 2v8H5Z' fill='%23118ab2'/%3E%3Ccircle cx='47' cy='17' r='7' fill='%23ffd166'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="v2.css?v=16">
+  <link rel="stylesheet" href="v2.css?v=21">
   <style>html,body{overflow-x:hidden}</style>
 </head>
 <body>
@@ -49,6 +49,7 @@
             <h2>建立探索小隊</h2>
             <p>建議 3–4 人一組：一人持機、一人讀題、一人找展品、一人記錄。請小聲討論、不奔跑、不觸摸標本。</p>
           </div>
+          <div class="device-tip" role="note"><b>手機／平板遊玩提醒</b><span>使用手機登入時，建議將裝置轉為橫向，拖曳與觀察畫面會更順暢。</span></div>
           <label>小隊名稱<input id="teamName" maxlength="12" placeholder="例如：雨滴偵探隊" autocomplete="off"></label>
           <fieldset>
             <legend>挑戰難度</legend>
@@ -105,13 +106,15 @@
     </main>
   </div>
 
+  <div class="portrait-device-notice" role="status"><b>請將手機轉為橫向使用</b><span>橫式畫面更適合觀察展品與拖曳解謎。</span></div>
+
   <dialog id="hintDialog"><div class="dialog-card"><button class="dialog-close" data-close="hintDialog" aria-label="關閉">×</button><p class="eyebrow">龜將軍的提示</p><h2 id="hintTitle"></h2><p id="hintText"></p><button class="primary-btn" data-close="hintDialog">知道了</button></div></dialog>
   <dialog id="rpgGuideDialog"><div class="dialog-card rpg-guide"><button class="dialog-close" data-close="rpgGuideDialog" aria-label="關閉">×</button><p class="eyebrow">國中進階版</p><h2>蘭陽守望 RPG 冒險指南</h2><div class="guide-steps"><article><b>1．搜索場景</b><p>放大觀察每張展場圖片，點開船身、模型、圖層或標本等可疑物件；也要辨認干擾物。</p></article><article><b>2．收入調查袋</b><p>找到的線索會成為可操作道具。每件道具都記錄它能支持的展場證據。</p></article><article><b>3．親手操作</b><p>把道具放回證據槽、依時間排序或拼出船名。點到干擾物會消耗 FOCUS，但可重新查證。</p></article><article><b>4．現場驗證</b><p>畫面線索只能帶你接近答案；最後仍要用模型、標本與解說牌完成查證，才能打開封印。</p></article></div><p class="guide-note-rpg">建議小隊分工：持機員操作、導覽員讀題、偵察員找展品、證據員說明理由；每關輪替一次。</p></div></dialog>
   <dialog id="teacherDialog"><div class="dialog-card teacher-panel"><button class="dialog-close" data-close="teacherDialog" aria-label="關閉">×</button><p class="eyebrow">教師模式</p><div id="teacherGate"><h2>輸入教師通關碼</h2><p>避免學生誤開答案頁。預設通關碼請見本頁下方提示。</p><label>通關碼<input id="teacherCode" inputmode="text" autocomplete="off" placeholder="三個英文字母"></label><button class="primary-btn" id="unlockTeacher">開啟教學指引</button><small class="code-hint">提示：博物館英文名稱的三個縮寫字母（LYM）</small></div><div id="teacherContent" hidden></div></div></dialog>
   <dialog id="certificateDialog"><div class="dialog-card certificate"><button class="dialog-close" data-close="certificateDialog" aria-label="關閉">×</button><div class="certificate-content"><p class="cert-kicker">宜蘭縣立蘭陽博物館探索任務</p><h2 class="cert-title">蘭陽守望者榮耀證書</h2><div class="cert-rule"><span></span><b>✦</b><span></span></div><p class="cert-award">謹授予</p><h3 id="certTeam"></h3><p class="cert-copy">完成「山—平原—海」六道實境解謎，集齊宜蘭六寶，展現仔細觀察、團隊協作與證據推理能力，特頒此證，以資榮耀。</p><div class="cert-stats" id="certStats"></div><div class="cert-signature"><span>六道封印共同見證</span><b>嘎瑪蘭公主　×　龜將軍</b></div><button class="primary-btn" onclick="window.print()">列印／存成 PDF</button></div></div></dialog>
 
   <audio id="bgMusic" src="assets/Sunlight_on_Glass.mp3" loop preload="metadata" playsinline></audio>
-  <script src="game.js?v=20" defer></script>
+  <script src="game.js?v=21" defer></script>
   <script src="music.js?v=19" defer></script>
 </body>
 </html>
