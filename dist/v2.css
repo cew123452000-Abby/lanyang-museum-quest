@@ -55,3 +55,6 @@
   #questScreen.active .immersive-world{width:100%;aspect-ratio:16/9;border-radius:20px}
   #questScreen.active .immersive-world>img{width:100%;height:100%;object-fit:cover}
 }
+
+/* 玩家調查前不透露真線索或干擾物：全部使用相同的藍色「＋」標記。 */
+.world-hotspot.decoy:not(.checked){background:rgba(7,59,76,.78)}
