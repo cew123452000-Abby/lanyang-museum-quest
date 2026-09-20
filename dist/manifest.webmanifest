@@ -1,0 +1,10 @@
+{
+  "name":"蘭陽守望：博物館實境解謎",
+  "short_name":"蘭陽守望",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#fffdf7",
+  "theme_color":"#073b4c",
+  "lang":"zh-Hant-TW",
+  "description":"帶著 iPad 走進蘭陽博物館，協助嘎瑪蘭公主與龜將軍解開六道封印，尋回宜蘭六寶。"
+}
