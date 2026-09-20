@@ -68,6 +68,7 @@
   installButton.addEventListener('click',async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;installButton.hidden=true});
   window.addEventListener('appinstalled',()=>{installButton.hidden=true;present('ready','App 已安裝到主畫面','出發前請開啟飛航模式測試一次。',1,1)});
   window.addEventListener('online',checkOffline);window.addEventListener('offline',checkOffline);
+  navigator.serviceWorker?.addEventListener('controllerchange',checkOffline);
   appButton.addEventListener('click',()=>{dialog.showModal();checkOffline()});
   prepareButton.addEventListener('click',prepareOffline);
   checkOffline();
