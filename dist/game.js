@@ -38,10 +38,9 @@ const immersiveSceneData=[
     slots:[['第一步：環境改變','warm'],['第二步：移動方向','up'],['第三步：留下的生命','beech']]},
   {image:'assets/rpg-scene-03-forest-council-v1.jpg',alt:'山林永續議會場景中的祖靈規範、母獸足跡與有限森林資源',objects:[
     {name:'祖靈契約石',item:'節制規範',clue:'出獵前的占卜與祖靈規範會限制行動。',x:48,y:37,key:'rule'},
-    {name:'母獸與幼獸足跡',item:'繁殖守護證詞',clue:'不捕捉懷孕母獸，能保留族群繁殖的機會。',x:36,y:56,key:'birth',label:'top'},
-    {name:'伐木年輪樁',item:'資源有限警鐘',clue:'森林材木與獵物不是取之不盡；過度利用會讓循環中斷。',x:82,y:60,key:'limit',label:'top'}],
-    props:[{src:'assets/indigenous-empty-back-basket-v1.png',alt:'空的原住民傳統藤編背簍',x:72,y:49,w:9}],
-    decoys:[{name:'華麗獵具',msg:'工具精美不等於使用方式永續。',x:68,y:29},{name:'野花',msg:'花朵很醒目，但法庭需要能約束行為的證據。',x:7,y:62,label:'top'},{name:'原住民空背簍',msg:'空背簍本身不能證明採集有節制。',x:72,y:48,label:'top'}],
+    {name:'母獸與幼獸足跡',item:'繁殖守護證詞',clue:'不捕捉懷孕母獸，能保留族群繁殖的機會。',x:38,y:68,key:'birth',label:'top'},
+    {name:'伐木年輪樁',item:'資源有限警鐘',clue:'森林材木與獵物不是取之不盡；過度利用會讓循環中斷。',x:83,y:61,key:'limit',label:'top'}],
+    decoys:[{name:'華麗獵具',msg:'工具精美不等於使用方式永續。',x:67,y:29},{name:'野花',msg:'花朵很醒目，但法庭需要能約束行為的證據。',x:5,y:60,label:'top'},{name:'原住民空背簍',msg:'空背簍本身不能證明採集有節制。',x:66,y:40,label:'top'}],
     slots:[['行動規範','rule'],['保留繁殖','birth'],['承認有限','limit']]},
   {image:'assets/rpg-scene-04-river-archive-v1.jpg',alt:'蘭陽平原水系檔案室中的舊河道圖、洪水紀錄、堤防模型與現代水系圖層',objects:[
     {name:'清代舊河道圖',item:'兩河同源舊圖',clue:'早期蘭陽溪與宜蘭河曾同源，河道並非永遠固定。',x:25,y:34,key:'old'},
@@ -52,20 +51,20 @@ const immersiveSceneData=[
     slots:[['變動前','old'],['洪水改道','flood'],['築堤介入','dike'],['今日水系','modern']]},
   {image:'assets/rpg-scene-05-kuroshio-v1.jpg',alt:'黑潮觀測站中的深藍水樣、暖流溫度計、北向洋流與海漂果實',objects:[
     {name:'深藍水樣瓶',item:'深藍清澈讀數',clue:'黑潮並不是黑色；展項呈現深藍、較清澈的水色。',x:62,y:76,key:'color',label:'top'},
-    {name:'暖流溫度計',item:'較暖水溫讀數',clue:'黑潮水溫相對較高。',x:74,y:55,key:'warm'},
+    {name:'暖流溫度計',item:'較暖水溫讀數',clue:'黑潮水溫相對較高。',x:74,y:58,key:'warm'},
     {name:'北向流標',item:'向北流向標',clue:'黑潮沿臺灣東側往北流動。',x:22,y:20,key:'north'},
     {name:'漂流果實',item:'海漂旅行證物',clue:'穗花棋盤腳果實能藉海流漂送，鰻魚也會利用海流洄游。',x:13,y:49,key:'travel'}],
-    decoys:[{name:'貝殼',msg:'貝殼無法校正黑潮的四項讀數。',x:16,y:73,label:'top'},{name:'繩圈',msg:'繩圈是航海工具，不是海流方向證據。',x:4,y:80,label:'top'},{name:'舊羅盤',msg:'羅盤只告訴方位；請找真正指向北方的洋流標記。',x:20,y:80,label:'top'}],
+    decoys:[{name:'貝殼',msg:'貝殼無法校正黑潮的四項讀數。',x:15,y:77,label:'top'},{name:'繩圈',msg:'繩圈是航海工具，不是海流方向證據。',x:6,y:88,label:'top'},{name:'舊羅盤',msg:'羅盤只告訴方位；請找真正指向北方的洋流標記。',x:21,y:86,label:'top'}],
     slots:[['海色與水質','color'],['相對水溫','warm'],['主要流向','north'],['生命旅行','travel']]},
   {image:'assets/rpg-scene-06-nanfeng-v1.jpg',alt:'蘭陽博物館海之層中的南風壹號木造鏢旗魚船，船上各處藏有英文字母線索',objects:[
     {name:'船首鏢臺',item:'N',clue:'鏢臺下藏著第一枚字母。',x:14,y:28,key:'N1'},
     {name:'船首繩結',item:'A',clue:'繩結背面藏著第二枚字母。',x:30,y:42,key:'A'},
-    {name:'桅杆根部',item:'N',clue:'桅杆木縫藏著第三枚字母。',x:46,y:35,key:'N2'},
-    {name:'季風旗角',item:'F',clue:'迎風旗角藏著第四枚字母。',x:54,y:14,key:'F'},
+    {name:'桅杆根部',item:'N',clue:'桅杆木縫藏著第三枚字母。',x:49,y:41,key:'N2'},
+    {name:'季風旗角',item:'F',clue:'迎風旗角藏著第四枚字母。',x:58,y:12,key:'F'},
     {name:'船艙舵輪',item:'E',clue:'舵輪中央藏著第五枚字母。',x:69,y:47,key:'E'},
-    {name:'漁網浮球',item:'N',clue:'船尾漁網藏著第六枚字母。',x:84,y:55,key:'N3'},
+    {name:'漁網浮球',item:'N',clue:'船尾漁網藏著第六枚字母。',x:84,y:53,key:'N3'},
     {name:'展示臺木箱',item:'G',clue:'最後一枚字母藏在展臺木箱。',x:88,y:84,key:'G'}],
-    decoys:[{name:'月光窗',msg:'月光不是字母線索，回到船體細看。',x:7,y:12,letter:'R'},{name:'魚群吊飾',msg:'這枚字母屬於干擾訊號。',x:86,y:18,letter:'O'},{name:'船邊銅鐘',msg:'鐘聲響起了，但這不是船名中的字母。',x:78,y:36,letter:'T'},{name:'岩石底座',msg:'岩石下只有干擾字母。',x:36,y:86,letter:'S'}],
+    decoys:[{name:'窗外月亮',msg:'月光不是字母線索，回到船體細看。',x:24,y:14,letter:'R'},{name:'魚群吊飾',msg:'這枚字母屬於干擾訊號。',x:86,y:18,letter:'O'},{name:'船邊銅鐘',msg:'鐘聲響起了，但這不是船名中的字母。',x:77,y:42,letter:'T'},{name:'岩石底座',msg:'岩石下只有干擾字母。',x:36,y:86,letter:'S'}],
     word:'NANFENG'}
 ];
 challengeQuests.forEach((q,i)=>Object.assign(q.rpg,immersiveSceneData[i]));
@@ -275,7 +274,7 @@ function renderSeaLock(q){
 }
 function renderRpgPrelude(q){
   ensureRpgState();const r=q.rpg;let scene=state.rpg.scenes[q.id];
-  if(!scene||scene.version!==3)scene=state.rpg.scenes[q.id]={version:3,found:[],decoys:[],assembly:{},letters:[],sceneSolved:false};
+  if(!scene||scene.version!==4)scene=state.rpg.scenes[q.id]={version:4,found:[],decoys:[],assembly:{},letters:[],sceneSolved:false};
   const found=scene.found||[],allFound=found.length===r.objects.length;
   $('#puzzle').innerHTML=`<section class="immersive-quest"><div class="rpg-phase" aria-label="關卡階段"><span class="active">1 搜查物件</span><span class="${allFound?'active':''}">2 操作線索</span><span>3 打開封印</span></div><div class="scene-objective"><div><p class="eyebrow">場景任務</p><h2>${r.scene}</h2><p>${r.threat}</p></div><strong>${found.length} / ${r.objects.length}<small>已取得</small></strong></div><div class="immersive-world"><img src="${r.image}" alt="${r.alt}">${(r.props||[]).map(p=>`<img class="scene-prop" src="${p.src}" alt="${p.alt}" style="--x:${p.x}%;--y:${p.y}%;--w:${p.w}%">`).join('')}${r.objects.map((o,i)=>`<button class="world-hotspot ${o.label==='top'?'label-top':''} ${found.includes(i)?'found':''}" style="--x:${o.x}%;--y:${o.y}%" data-world-object="${i}" aria-label="${found.includes(i)?'已找到：':'調查：'}${o.name}"><span>${found.includes(i)?'✓':'＋'}</span><b>${o.name}</b></button>`).join('')}${r.decoys.map((o,i)=>`<button class="world-hotspot decoy ${o.label==='top'?'label-top':''} ${scene.decoys.includes(i)?'checked':''}" style="--x:${o.x}%;--y:${o.y}%" data-world-decoy="${i}" aria-label="調查：${o.name}"><span>${scene.decoys.includes(i)?'×':'＋'}</span><b>${o.name}</b></button>`).join('')}<div class="scene-npc"><span class="npc-mini princess-mini" aria-hidden="true"></span><p><b>嘎瑪蘭公主：</b>${allFound?'線索都收齊了！把道具拖回正確的位置，讓記憶重新連起來。':'不要只找發光的地方；展品的形狀、位置與用途也可能藏著證據。'}</p></div></div><div class="scene-inventory"><div><p class="eyebrow">調查袋</p><h3>${q.id===5?'散落的船名字母':'已取得的線索道具'}</h3></div><div class="inventory-slots">${r.objects.map((o,i)=>found.includes(i)?`<article><span>${q.id===5?o.item:'◆'}</span><b>${o.item}</b><small>${o.clue}</small></article>`:`<article class="empty"><span>？</span><b>尚未發現</b><small>回到圖片繼續搜查</small></article>`).join('')}</div></div>${allFound?`<div class="scene-ready"><p>${q.id===5?'七枚字母已找齊，但順序仍被風浪打亂。':'證據齊全，現在必須親手操作它們，不能用猜的。'}</p><button class="primary-btn" id="useSceneClues">${q.id===5?'開始拼船名':'打開操作臺'} <span>→</span></button></div>`:''}</section>`;
   $$('[data-world-object]').forEach(b=>{
