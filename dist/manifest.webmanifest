@@ -1,10 +1,20 @@
 {
+  "id":"./",
   "name":"蘭陽守望：博物館實境解謎",
   "short_name":"蘭陽守望",
+  "description":"帶著 iPad 走進蘭陽博物館，協助嘎瑪蘭公主與龜將軍解開六道封印，尋回宜蘭六寶。",
+  "lang":"zh-Hant-TW",
   "start_url":"./",
+  "scope":"./",
   "display":"standalone",
+  "display_override":["standalone","minimal-ui"],
+  "orientation":"landscape-primary",
   "background_color":"#fffdf7",
   "theme_color":"#073b4c",
-  "lang":"zh-Hant-TW",
-  "description":"帶著 iPad 走進蘭陽博物館，協助嘎瑪蘭公主與龜將軍解開六道封印，尋回宜蘭六寶。"
+  "categories":["education","games"],
+  "icons":[
+    {"src":"assets/pwa-icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"assets/pwa-icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"assets/pwa-icon-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
+  ]
 }
