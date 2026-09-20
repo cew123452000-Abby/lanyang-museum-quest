@@ -33,7 +33,7 @@ const immersiveSceneData=[
   {image:'assets/rpg-scene-02-mist-forest-v1.jpg',alt:'蘭陽博物館迷霧森林展示中的退冰痕跡、上升山徑與臺灣山毛櫸葉',objects:[
     {name:'退冰遺痕',item:'氣候變暖紀錄',clue:'冰河期結束後，整體氣候逐漸回暖。',x:18,y:69,key:'warm'},
     {name:'上升山徑',item:'高海拔路標',clue:'怕熱的生物會往較高、較涼爽的地方移動。',x:48,y:55,key:'up'},
-    {name:'金黃葉標本',item:'山毛櫸記憶葉',clue:'臺灣山毛櫸是展場可查證的冰河孑遺植物。',x:80,y:40,key:'beech'}],
+    {name:'金黃葉標本',item:'山毛櫸記憶葉',clue:'臺灣山毛櫸是展場可查證的冰河孑遺植物。',x:7,y:36,key:'beech'}],
     decoys:[{name:'山泉水',msg:'水源是森林的一部分，但不是這條氣候遷移因果鏈。',x:69,y:78},{name:'蕨類',msg:'先找會說明「變暖與往高處移動」的證據。',x:31,y:84},{name:'霧燈',msg:'這是展場照明，不能當成自然史證據。',x:91,y:17}],
     slots:[['第一步：環境改變','warm'],['第二步：移動方向','up'],['第三步：留下的生命','beech']]},
   {image:'assets/rpg-scene-03-forest-council-v1.jpg',alt:'山林永續議會場景中的祖靈規範、母獸足跡與有限森林資源',objects:[
@@ -85,11 +85,19 @@ const currentQuests=()=>state.level==='challenger'?challengeQuests:explorerQuest
 const sequenceCorrect=['以手斧將樟木刨成薄木片','將薄木片背至腦寮','入灶蒸餾提煉','冷卻分離出腦油與腦砂','將樟腦油分裝','武裝戒護運送下山'];
 const state={team:'',level:'explorer',completed:[],current:0,hints:0,startedAt:null,sound:true,rpg:{focus:5,xp:0,inventory:[],scenes:{}}};
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
-function save(){localStorage.setItem('lanyangQuest',JSON.stringify(state))}
+function save(){localStorage.setItem('lanyangQuest',JSON.stringify(state));window.dispatchEvent(new CustomEvent('lanyang-progress',{detail:{team:state.team,level:state.level,startedAt:state.startedAt,completed:[...state.completed],current:state.current,hints:state.hints,rpg:state.rpg}}))}
 function ensureRpgState(){state.rpg=Object.assign({focus:5,xp:0,inventory:[],scenes:{}},state.rpg||{});state.rpg.inventory=Array.isArray(state.rpg.inventory)?state.rpg.inventory:[];state.rpg.scenes=state.rpg.scenes||{}}
 function load(){try{Object.assign(state,JSON.parse(localStorage.getItem('lanyangQuest'))||{})}catch(e){}ensureRpgState()}
 function show(id){$$('.screen').forEach(x=>x.classList.toggle('active',x.id===id));scrollTo({top:0,behavior:'smooth'})}
 function tone(freq=520){if(!state.sound)return;try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=freq;g.gain.setValueAtTime(.06,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.18);o.start();o.stop(a.currentTime+.2)}catch(e){}}
+function alarmTone(){
+  if(!state.sound)return;
+  try{
+    const a=new(window.AudioContext||window.webkitAudioContext)();
+    [0,.18].forEach((delay,i)=>{const o=a.createOscillator(),g=a.createGain(),start=a.currentTime+delay;o.type='square';o.frequency.setValueAtTime(i?330:440,start);o.frequency.exponentialRampToValueAtTime(i?165:220,start+.14);g.gain.setValueAtTime(.075,start);g.gain.exponentialRampToValueAtTime(.001,start+.16);o.connect(g);g.connect(a.destination);o.start(start);o.stop(start+.17)});
+    setTimeout(()=>a.close().catch(()=>{}),500)
+  }catch(e){}
+}
 function startGame(resume=false){if(!resume){state.team=$('#teamName').value.trim()||'蘭陽小偵探';state.level=$('input[name="level"]:checked').value;state.completed=[];state.hints=0;state.startedAt=Date.now();state.rpg={focus:5,xp:0,inventory:[],scenes:{}};save()}ensureRpgState();renderMap();show('mapScreen')}
 function rpgRank(){return state.rpg.xp>=150?'蘭陽守望者':state.rpg.xp>=90?'展場解譯師':state.rpg.xp>=40?'證據追蹤者':'見習探索員'}
 function rpgHudMarkup(compact=false){const bag=state.rpg.inventory.length?state.rpg.inventory.slice(-3).map(x=>`<span>${x}</span>`).join(''):'<span class="empty-loot">尚未取得任務道具</span>';return `<div class="rpg-stats ${compact?'compact':''}"><div><small>RANK</small><b>${rpgRank()}</b></div><div><small>FOCUS</small><b>${'◆'.repeat(state.rpg.focus)}${'◇'.repeat(5-state.rpg.focus)}</b></div><div><small>XP</small><b>${state.rpg.xp}</b></div><div class="rpg-bag"><small>線索包</small>${bag}</div>${compact?'':'<button class="rpg-guide-btn" id="rpgGuideBtn">冒險指南</button>'}</div>`}
@@ -269,10 +277,13 @@ function renderRpgPrelude(q){
   if(!scene||scene.version!==2)scene=state.rpg.scenes[q.id]={version:2,found:[],decoys:[],assembly:{},letters:[],sceneSolved:false};
   const found=scene.found||[],allFound=found.length===r.objects.length;
   $('#puzzle').innerHTML=`<section class="immersive-quest"><div class="rpg-phase" aria-label="關卡階段"><span class="active">1 搜查物件</span><span class="${allFound?'active':''}">2 操作線索</span><span>3 打開封印</span></div><div class="scene-objective"><div><p class="eyebrow">場景任務</p><h2>${r.scene}</h2><p>${r.threat}</p></div><strong>${found.length} / ${r.objects.length}<small>已取得</small></strong></div><div class="immersive-world"><img src="${r.image}" alt="${r.alt}">${r.objects.map((o,i)=>`<button class="world-hotspot ${found.includes(i)?'found':''}" style="--x:${o.x}%;--y:${o.y}%" data-world-object="${i}" aria-label="${found.includes(i)?'已找到：'+o.name:'調查場景中的可疑物件'}"><span>${found.includes(i)?'✓':'＋'}</span><b>${found.includes(i)?o.name:'調查'}</b></button>`).join('')}${r.decoys.map((o,i)=>`<button class="world-hotspot decoy ${scene.decoys.includes(i)?'checked':''}" style="--x:${o.x}%;--y:${o.y}%" data-world-decoy="${i}" aria-label="調查場景物件"><span>${scene.decoys.includes(i)?'×':'？'}</span><b>${scene.decoys.includes(i)?o.name:'可疑物件'}</b></button>`).join('')}<div class="scene-npc"><span class="npc-mini princess-mini" aria-hidden="true"></span><p><b>嘎瑪蘭公主：</b>${allFound?'線索都收齊了！把道具拖回正確的位置，讓記憶重新連起來。':'不要只找發光的地方；展品的形狀、位置與用途也可能藏著證據。'}</p></div></div><div class="scene-inventory"><div><p class="eyebrow">調查袋</p><h3>${q.id===5?'散落的船名字母':'已取得的線索道具'}</h3></div><div class="inventory-slots">${r.objects.map((o,i)=>found.includes(i)?`<article><span>${q.id===5?o.item:'◆'}</span><b>${o.item}</b><small>${o.clue}</small></article>`:`<article class="empty"><span>？</span><b>尚未發現</b><small>回到圖片繼續搜查</small></article>`).join('')}</div></div>${allFound?`<div class="scene-ready"><p>${q.id===5?'七枚字母已找齊，但順序仍被風浪打亂。':'證據齊全，現在必須親手操作它們，不能用猜的。'}</p><button class="primary-btn" id="useSceneClues">${q.id===5?'開始拼船名':'打開操作臺'} <span>→</span></button></div>`:''}</section>`;
-  $$('[data-world-object]').forEach(b=>b.onclick=()=>{const i=+b.dataset.worldObject;if(found.includes(i))return feedback(true,`${r.objects[i].item} 已在調查袋中。`);scene.found.push(i);state.rpg.xp+=2;save();tone(610);renderRpgQuestHud();renderRpgPrelude(q);feedback(true,`找到「${r.objects[i].item}」：${r.objects[i].clue}`)});
+  $$('[data-world-object]').forEach(b=>{
+    const i=+b.dataset.worldObject;b.querySelector('b').textContent=r.objects[i].name;b.setAttribute('aria-label',`${found.includes(i)?'已找到':'調查'}：${r.objects[i].name}`);
+    b.onclick=()=>{if(found.includes(i))return feedback(true,`${r.objects[i].item} 已在調查袋中。`);scene.found.push(i);state.rpg.xp+=2;save();tone(610);renderRpgQuestHud();renderRpgPrelude(q);feedback(true,`找到「${r.objects[i].item}」：${r.objects[i].clue}`)}
+  });
   $$('[data-world-decoy]').forEach(b=>{
-    if(!b.classList.contains('checked'))b.querySelector('span').textContent='＋';
-    b.onclick=()=>{const i=+b.dataset.worldDecoy;if(!scene.decoys.includes(i)){scene.decoys.push(i);state.rpg.focus=Math.max(1,state.rpg.focus-1);save();renderRpgQuestHud()}b.classList.add('checked');b.querySelector('span').textContent='×';b.querySelector('b').textContent=r.decoys[i].name;feedback(false,`${r.decoys[i].msg} FOCUS -1。`)}
+    const i=+b.dataset.worldDecoy;b.querySelector('b').textContent=r.decoys[i].name;b.setAttribute('aria-label',`調查：${r.decoys[i].name}`);if(!b.classList.contains('checked'))b.querySelector('span').textContent='＋';
+    b.onclick=()=>{if(!scene.decoys.includes(i)){scene.decoys.push(i);state.rpg.focus=Math.max(1,state.rpg.focus-1);save();renderRpgQuestHud()}alarmTone();b.classList.add('checked');b.querySelector('span').textContent='×';feedback(false,`警報！${r.decoys[i].msg} FOCUS -1。`)}
   });
   if($('#useSceneClues'))$('#useSceneClues').onclick=()=>renderImmersiveAssembly(q)
 }
@@ -308,7 +319,7 @@ function teacherContent(){
   const rows=(list,answers)=>list.map((q,i)=>`<tr><td>${i+1}. ${q.title}</td><td>${answers[i]}<br><b>${q.treasure}</b></td><td>${q.place}</td></tr>`).join('');
   return `<h2>90 分鐘教學指引</h2><h3>學習目標</h3><ul><li>能以展品、模型、圖片與說明牌作為證據解題。</li><li>能說出宜蘭山地、平原、海洋環境與人類生活的關係。</li><li>國中進階版能比較多項資料，建立因果關係並辨識錯誤主張。</li></ul><h3>建議流程</h3><table><tr><th>時間</th><th>活動</th><th>教師引導</th></tr><tr><td>10 分</td><td>館外組隊、說明證據規則</td><td>「你的答案由哪一件展品或哪一句展板支持？」</td></tr><tr><td>25 分</td><td>4F 山之層兩關</td><td>國中組需說出原因與結果，不只報答案。</td></tr><tr><td>20 分</td><td>3F 平原層</td><td>要求小組用兩項史料修正錯誤敘述。</td></tr><tr><td>20 分</td><td>2F 海之層兩關</td><td>比較自然條件、物種遷移與漁業技術。</td></tr><tr><td>15 分</td><td>寶庫、證書與出口單</td><td>「哪一項證據最能改變你的判斷？」</td></tr></table><h3>國小探索版答案</h3><table><tr><th>關卡</th><th>答案／寶物</th><th>現場證據</th></tr>${rows(explorerQuests,elementary)}</table><h3>國中進階版答案</h3><table><tr><th>關卡</th><th>答案／寶物</th><th>現場證據</th></tr>${rows(challengeQuests,advanced)}</table><h3>評量方式</h3><ul><li><b>觀察證據：</b>每關能指出展板或展示物作為理由（35%）。</li><li><b>推理品質：</b>能比較資料、說明因果或修正錯誤（35%）。</li><li><b>合作參與：</b>輪替角色、音量合宜、遵守動線（20%）。</li><li><b>反思表達：</b>用一句話連結「山—平原—海」（10%）。</li></ul><h3>出口單</h3><p>① 我們修改過的一項錯誤主張是＿＿，證據是＿＿。<br>② 宜蘭自然環境與人類生活的因果關係是＿＿。<br>③ 若展板與直覺衝突，我會用＿＿確認。</p><p><small>內容依使用者提供之蘭博蒐查線、國中／高中參觀學習資料改編；傳說部分採民間故事教育性改寫，應與歷史事實分開說明。館內展項如有更新，請教師於出發前先巡場確認。</small></p>`
 }
-function prependRpgTeacherNote(){const c=$('#teacherContent');c.insertAdjacentHTML('afterbegin','<section class="teacher-rpg-note"><h2>國中 RPG 玩法與評量證據</h2><p>每關循環為「搜尋場景物件 → 收入調查袋 → 配置／排序／拼字 → 回到真實展品查證」。學生不能只按選項：必須說明物件為何是證據。FOCUS 用來回饋誤判，XP 與任務道具顯示學習進展；不建議以速度作為主要評分。</p></section>')}
+function prependRpgTeacherNote(){const c=$('#teacherContent');c.insertAdjacentHTML('afterbegin','<section class="teacher-rpg-note"><h2>國中 RPG 玩法與評量證據</h2><p>每關循環為「搜尋場景物件 → 收入調查袋 → 配置／排序／拼字 → 回到真實展品查證」。學生不能只按選項：必須說明物件為何是證據。FOCUS 用來回饋誤判，XP 與任務道具顯示學習進展；不建議以速度作為主要評分。</p><p><a class="primary-btn" href="admin.html" target="_blank" rel="noopener">開啟教師使用紀錄後台</a></p></section>')}
 $('#startBtn').onclick=()=>startGame(false);
 $('#resumeBtn').onclick=()=>startGame(true);
 $('#homeBtn').onclick=()=>state.startedAt?(renderMap(),show('mapScreen')):show('startScreen');

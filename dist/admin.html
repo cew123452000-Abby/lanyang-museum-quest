@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#073b4c">
+  <title>蘭陽守望｜教師紀錄後台</title>
+  <link rel="stylesheet" href="admin.css?v=1">
+</head>
+<body>
+  <header class="admin-hero">
+    <div><p>教師專用｜Firebase 使用紀錄</p><h1>蘭陽守望學習儀表板</h1><span>以小隊暱稱呈現，不蒐集學生真實姓名。</span></div>
+    <a href="index.html">返回遊戲</a>
+  </header>
+  <main>
+    <section class="connection-card" aria-live="polite">
+      <div><small>連線狀態</small><strong id="connectionStatus">正在檢查 Firebase 設定…</strong></div>
+      <div class="auth-actions"><button id="signInBtn" hidden>使用 Google 管理者帳號登入</button><button id="signOutBtn" hidden>登出</button></div>
+    </section>
+    <section id="dashboard" hidden>
+      <div class="summary-grid" id="summaryGrid"></div>
+      <div class="toolbar"><div><p>最近紀錄</p><h2>小隊填答進度</h2></div><div><button id="refreshBtn">重新整理</button><button id="csvBtn">匯出 CSV</button><button id="aiBtn">產生 AI 學習摘要</button></div></div>
+      <div class="table-wrap"><table><thead><tr><th>小隊暱稱</th><th>版本</th><th>開始時間</th><th>使用時間</th><th>關卡進度</th><th>提示</th><th>XP</th><th>最後活動</th></tr></thead><tbody id="sessionRows"></tbody></table></div>
+      <section class="ai-panel"><p>AI 僅接收匿名化後的整體統計，不傳送小隊暱稱。</p><div id="aiSummary">尚未產生摘要。</div></section>
+    </section>
+    <section class="setup-panel" id="setupPanel" hidden>
+      <h2>Firebase 尚未完成連線</h2>
+      <p>網站已備妥匿名紀錄、管理者登入、CSV 匯出與 AI 匿名統計摘要。完成 Firebase 專案設定後即可啟用。</p>
+      <ol><li>建立 Firebase Web App，啟用 Anonymous 與 Google 登入。</li><li>建立 Cloud Firestore，套用專案內的 <code>firestore.rules</code>。</li><li>把 Web 設定貼入 <code>firebase-config.js</code>，並在 <code>admins</code> 集合加入管理者 UID。</li><li>若要啟用 AI 摘要，設定 Firebase AI Logic 與 App Check。</li></ol>
+    </section>
+  </main>
+  <script type="module" src="admin.js?v=2"></script>
+</body>
+</html>
