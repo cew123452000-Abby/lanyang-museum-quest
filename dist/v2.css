@@ -58,6 +58,6 @@
 
 /* 玩家調查前不透露真線索或干擾物：全部使用相同的藍色「＋」標記。 */
 .world-hotspot.decoy:not(.checked){background:rgba(7,59,76,.78)}
-.scene-prop{position:absolute;z-index:2;left:var(--x);top:var(--y);width:var(--w);height:auto;transform:translate(-50%,-50%);object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))}
+.immersive-world>img.scene-prop{position:absolute;z-index:2;left:var(--x);top:var(--y);width:var(--w);height:auto;transform:translate(-50%,-50%);object-fit:contain;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))}
 .world-hotspot.label-top>b{top:auto;bottom:47px}
 .music-btn{position:relative;isolation:isolate;transition:background-color .2s,color .2s,transform .2s}.music-btn span{display:block;font-size:1.1rem}.music-btn.is-playing{background:var(--navy);color:var(--sun);border-color:var(--navy)}.music-btn.is-playing::after{content:"";position:absolute;inset:-5px;border:2px solid rgba(6,214,160,.65);border-radius:50%;z-index:-1;animation:musicPulse 1.8s ease-out infinite}.music-btn.is-muted{background:#eef3f2;color:#708387}.music-btn:focus-visible{outline:3px solid rgba(17,138,178,.28);outline-offset:3px}@keyframes musicPulse{0%{transform:scale(.86);opacity:.9}70%,100%{transform:scale(1.18);opacity:0}}@media(prefers-reduced-motion:reduce){.music-btn.is-playing::after{animation:none}}
